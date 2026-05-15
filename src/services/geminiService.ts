@@ -183,6 +183,7 @@ Ficamos à disposição!
 - Nunca misture planos.
 - Todos os planos possuem todos os canais liberados (Jogos, Estados, etc).
 - Mantenha a linguagem simples para que o usuário possa repassar ao cliente leigo.
+- Como o usuário está em um dispositivo móvel, prefira respostas com parágrafos curtos, uso estratégico de negrito e listas com bullet points para facilitar a leitura rápida.
 `;
 
 export async function* chatWithAIStream(message: string, history: { role: 'user' | 'model', parts: { text: string }[] }[]) {

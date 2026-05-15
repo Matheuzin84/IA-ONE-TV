@@ -255,12 +255,12 @@ export default function App() {
                       {message.role === 'user' ? <User className="w-5 h-5 text-white" /> : <Bot className="w-5 h-5 text-primary" />}
                     </div>
                     <div className="relative group">
-                      <div className={`p-5 rounded-2xl shadow-xl ${
+                      <div className={`p-4 md:p-5 rounded-2xl shadow-xl ${
                         message.role === 'user' 
-                          ? 'bg-primary text-white rounded-tr-none' 
-                          : 'bg-surface text-text-main border border-border rounded-tl-none'
+                          ? 'bg-primary text-white rounded-tr-none ml-4' 
+                          : 'bg-surface text-text-main border border-border rounded-tl-none mr-4'
                       }`}>
-                        <p className="text-sm md:text-base leading-relaxed whitespace-pre-wrap">
+                        <p className="text-[13px] md:text-base leading-relaxed whitespace-pre-wrap">
                           {message.content}
                         </p>
                       </div>
@@ -446,15 +446,15 @@ export default function App() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyPress}
-                placeholder="Ex: Gere uma resposta para cliente que quer o plano Ouro..."
-                className="w-full bg-surface border border-border rounded-2xl py-5 pl-6 pr-16 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all resize-none shadow-2xl"
+                placeholder="Como posso ajudar?"
+                className="w-full bg-surface border border-border rounded-2xl py-4 md:py-5 pl-5 md:pl-6 pr-14 md:pr-16 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all resize-none shadow-xl md:shadow-2xl"
               />
               <button
                 onClick={() => handleSend()}
                 disabled={!input.trim() || isLoading}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-3 bg-primary hover:bg-red-700 disabled:bg-surface-light disabled:text-text-muted text-white rounded-xl transition-all shadow-xl active:scale-90"
+                className="absolute right-2 md:right-3 top-1/2 -translate-y-1/2 p-3 bg-primary hover:bg-red-700 disabled:bg-surface-light disabled:text-text-muted text-white rounded-xl transition-all shadow-xl active:scale-90"
               >
-                <Send className="w-6 h-6" />
+                {isLoading ? <Loader2 className="w-5 h-5 md:w-6 md:h-6 animate-spin" /> : <Send className="w-5 h-5 md:w-6 md:h-6" />}
               </button>
             </div>
             <p className="text-center text-[10px] text-text-muted mt-4 uppercase tracking-[0.3em] font-bold opacity-50">
