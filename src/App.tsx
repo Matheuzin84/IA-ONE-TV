@@ -93,16 +93,20 @@ export default function App() {
       if (!fullResponse) {
         throw new Error('No response from AI');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Chat error:', error);
+      const errorMessage = error?.message?.includes('API key') || error?.message?.includes('Chave API') 
+        ? 'Erro: Chave API não configurada. Se você está usando o Netlify, adicione GEMINI_API_KEY nas variáveis de ambiente.'
+        : 'Erro de conexão. Por favor, tente novamente.';
+        
       setMessages(prev => {
         const lastIndex = prev.length - 1;
         if (prev[lastIndex].role === 'model' && prev[lastIndex].content === '') {
           const newMessages = [...prev];
-          newMessages[lastIndex] = { role: 'model', content: 'Erro de conexão. Por favor, tente novamente.' };
+          newMessages[lastIndex] = { role: 'model', content: errorMessage };
           return newMessages;
         }
-        return [...prev, { role: 'model', content: 'Erro de conexão. Por favor, tente novamente.' }];
+        return [...prev, { role: 'model', content: errorMessage }];
       });
     } finally {
       setIsLoading(false);

@@ -1,7 +1,24 @@
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || '' });
 const modelName = "gemini-3-flash-preview";
+
+let aiInstance: GoogleGenAI | null = null;
+
+function getAIInstance() {
+  if (!aiInstance) {
+    const apiKey = (typeof process !== 'undefined' && process.env?.GEMINI_API_KEY) || 
+                   (import.meta.env?.VITE_GEMINI_API_KEY) || 
+                   '';
+    
+    if (!apiKey) {
+      console.error('ERRO: GEMINI_API_KEY não encontrada nas variáveis de ambiente!');
+      throw new Error('Chave API do Gemini não configurada. Verifique as variáveis de ambiente.');
+    }
+    
+    aiInstance = new GoogleGenAI({ apiKey });
+  }
+  return aiInstance;
+}
 
 const SYSTEM_INSTRUCTION = `
 Você é o Assistente Pessoal de um Especialista em IPTV. Sua missão é ajudar o seu usuário a atender os clientes dele com perfeição.
@@ -174,6 +191,7 @@ export async function* chatWithAIStream(message: string, history: { role: 'user'
   );
 
   try {
+    const ai = getAIInstance();
     const chat = ai.chats.create({
       model: modelName,
       config: {
@@ -199,6 +217,7 @@ export async function* chatWithAIStream(message: string, history: { role: 'user'
 
 export async function chatWithAI(message: string, history: { role: 'user' | 'model', parts: { text: string }[] }[]) {
   try {
+    const ai = getAIInstance();
     const chat = ai.chats.create({
       model: modelName,
       config: {
