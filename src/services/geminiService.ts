@@ -65,6 +65,12 @@ Observação se necessário:
 
 📺 BASE DE DADOS DETALHADA:
 
+📌 CONEXÕES SIMULTÂNEAS - PLANO DIAMANTE:
+O plano Diamante permite 3 conexões simultâneas, divididas da seguinte forma:
+- 2 Aparelhos IPTV: TVs Samsung, LG, Roku, iPhone, Computador, etc.
+- 1 Aparelho P2P: TV Box, Fire Stick, TV Android, Celular Android (aparelhos com acesso à Google Play).
+Totalizando 3 telas funcionando ao mesmo tempo.
+
 📌 SMART TV SAMSUNG / LG / ROKU
 - 💎 DIAMANTE (WAREZ): KPLAY, XCLOUD, IPTV PLAYER io, EASY PLAYER
 - 🥇 OURO (FIRE): FUN PLAY, XCLOUD
