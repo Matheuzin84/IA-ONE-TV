@@ -95,9 +95,14 @@ export default function App() {
       }
     } catch (error: any) {
       console.error('Chat error:', error);
-      const errorMessage = error?.message?.includes('API key') || error?.message?.includes('Chave API') 
-        ? 'Erro: Chave API não configurada. Se você está usando o Netlify, adicione GEMINI_API_KEY nas variáveis de ambiente.'
-        : 'Erro de conexão. Por favor, tente novamente.';
+      
+      let errorMessage = 'Erro de conexão. Por favor, tente novamente.';
+      
+      if (error?.message === 'CONFIG_ERROR') {
+        errorMessage = '⚠️ Chave API não encontrada! No Netlify:\n1. Use o nome VITE_GEMINI_API_KEY\n2. Vá em Deploys > Trigger Deploy > Clear cache and deploy site.';
+      } else if (error?.message?.includes('API key') || error?.message?.includes('Chave API')) {
+        errorMessage = 'Sua chave API parece inválida ou não tem permissão.';
+      }
         
       setMessages(prev => {
         const lastIndex = prev.length - 1;
@@ -175,6 +180,31 @@ export default function App() {
                   </div>
                 </button>
               ))}
+            </div>
+
+            <div className="bg-surface p-6 rounded-2xl border border-border">
+              <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
+                <ExternalLink className="w-5 h-5 text-primary" />
+                Links Úteis para Clientes
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {[
+                  { name: 'App Android (Prata)', url: 'https://5664.in/7gtyap4a', icon: User },
+                  { name: 'App Android (Diamante)', url: 'https://tinyurl.com/wfy4tsuj', icon: Tv },
+                  { name: 'Smarters Lite (iOS)', url: 'https://apps.apple.com/br/app/iptv-smarters-player-lite/id1628995509', icon: HelpCircle },
+                ].map((link) => (
+                  <a 
+                    key={link.name}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between p-4 bg-surface-light rounded-xl hover:bg-primary hover:text-white transition-all group"
+                  >
+                    <span className="text-sm font-bold">{link.name}</span>
+                    <ExternalLink className="w-4 h-4 opacity-50 group-hover:opacity-100" />
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
         );

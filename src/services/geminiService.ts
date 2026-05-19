@@ -6,13 +6,15 @@ let aiInstance: GoogleGenAI | null = null;
 
 function getAIInstance() {
   if (!aiInstance) {
-    const apiKey = (typeof process !== 'undefined' && process.env?.GEMINI_API_KEY) || 
-                   (import.meta.env?.VITE_GEMINI_API_KEY) || 
+    // Tenta pegar de várias formas possíveis em ambientes Vite/Node
+    const apiKey = (import.meta.env?.VITE_GEMINI_API_KEY) || 
+                   (typeof process !== 'undefined' && process.env?.GEMINI_API_KEY) || 
+                   (typeof process !== 'undefined' && process.env?.VITE_GEMINI_API_KEY) ||
                    '';
     
     if (!apiKey) {
-      console.error('ERRO: GEMINI_API_KEY não encontrada nas variáveis de ambiente!');
-      throw new Error('Chave API do Gemini não configurada. Verifique as variáveis de ambiente.');
+      console.error('ERRO: Variável de ambiente GEMINI_API_KEY ou VITE_GEMINI_API_KEY não encontrada.');
+      throw new Error('CONFIG_ERROR');
     }
     
     aiInstance = new GoogleGenAI({ apiKey });
@@ -99,6 +101,7 @@ Observação se necessário:
 - 💎 DIAMANTE (WAREZ): WPlay P2P BinStream (https://tinyurl.com/wfy4tsuj) ou Wapp Android Mobile (https://tinyurl.com/4shxz68s)
 - 🥇 OURO (FIRE): FIRE PLUS (Play Store)
 - 🥈 PRATA (UNIPLAY): UNIPLAY P2P (https://5664.in/1daqbt56)
+- 🥈 PRATA (NÃO P2P): Android Mobile Prata (https://5664.in/7gtyap4a)
 - 🥉 BRONZE (POWER): Power Smarters V3 (https://fui.ai/powerv3)
 
 📌 TV ANTIGA COM SMART STB (DNS)
