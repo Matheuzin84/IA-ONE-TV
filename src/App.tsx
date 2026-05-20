@@ -16,7 +16,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [copiedPix, setCopiedPix] = useState(false);
-  const [selectedPeriod, setSelectedPeriod] = useState<'1' | '3' | '6' | '12'>('1');
+  const [selectedPeriod, setSelectedPeriod] = useState<'promo' | '1' | '3' | '6' | '12'>('promo');
   const [currentView, setCurrentView] = useState<View>('chat');
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
     if (typeof window !== 'undefined') {
@@ -140,7 +140,8 @@ export default function App() {
             {/* Seletor de Períodos com Desconto */}
             <div className="bg-surface p-1.5 rounded-2xl border border-border inline-flex flex-wrap gap-1 max-w-full">
               {[
-                { id: '1', label: '1 Mês', discount: 'Regular' },
+                { id: 'promo', label: '1º Mês Promo', discount: '50% OFF' },
+                { id: '1', label: 'Mensal', discount: 'Regular' },
                 { id: '3', label: '3 Meses', discount: '10% OFF' },
                 { id: '6', label: '6 Meses', discount: '20% OFF' },
                 { id: '12', label: '12 Meses', discount: '30% OFF' },
@@ -169,26 +170,30 @@ export default function App() {
             {/* Grid de Planos */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {(() => {
-                const planPricing: Record<string, Record<'1' | '3' | '6' | '12', { total: string; original: string; monthly: string; discountText: string }>> = {
+                const planPricing: Record<string, Record<'promo' | '1' | '3' | '6' | '12', { total: string; original: string; monthly: string; discountText: string }>> = {
                   Bronze: {
+                    'promo': { total: 'R$ 9,95', original: 'R$ 19,90', monthly: 'R$ 9,95', discountText: '50% OFF' },
                     '1': { total: 'R$ 19,90', original: '', monthly: 'R$ 19,90', discountText: '' },
                     '3': { total: 'R$ 53,23', original: 'R$ 59,70', monthly: 'R$ 17,74', discountText: '10% OFF' },
                     '6': { total: 'R$ 95,52', original: 'R$ 119,40', monthly: 'R$ 15,92', discountText: '20% OFF' },
                     '12': { total: 'R$ 167,16', original: 'R$ 238,80', monthly: 'R$ 13,93', discountText: '30% OFF' },
                   },
                   Prata: {
+                    'promo': { total: 'R$ 12,45', original: 'R$ 24,90', monthly: 'R$ 12,45', discountText: '50% OFF' },
                     '1': { total: 'R$ 24,90', original: '', monthly: 'R$ 24,90', discountText: '' },
                     '3': { total: 'R$ 67,23', original: 'R$ 74,70', monthly: 'R$ 22,41', discountText: '10% OFF' },
                     '6': { total: 'R$ 119,52', original: 'R$ 149,40', monthly: 'R$ 19,92', discountText: '20% OFF' },
                     '12': { total: 'R$ 209,16', original: 'R$ 298,80', monthly: 'R$ 17,43', discountText: '30% OFF' },
                   },
                   Ouro: {
+                    'promo': { total: 'R$ 17,45', original: 'R$ 34,90', monthly: 'R$ 17,45', discountText: '50% OFF' },
                     '1': { total: 'R$ 34,90', original: '', monthly: 'R$ 34,90', discountText: '' },
                     '3': { total: 'R$ 94,23', original: 'R$ 104,70', monthly: 'R$ 31,41', discountText: '10% OFF' },
                     '6': { total: 'R$ 167,52', original: 'R$ 209,40', monthly: 'R$ 27,92', discountText: '20% OFF' },
                     '12': { total: 'R$ 293,16', original: 'R$ 418,80', monthly: 'R$ 24,43', discountText: '30% OFF' },
                   },
                   Diamante: {
+                    'promo': { total: 'R$ 22,45', original: 'R$ 44,90', monthly: 'R$ 22,45', discountText: '50% OFF' },
                     '1': { total: 'R$ 44,90', original: '', monthly: 'R$ 44,90', discountText: '' },
                     '3': { total: 'R$ 121,23', original: 'R$ 134,70', monthly: 'R$ 40,41', discountText: '10% OFF' },
                     '6': { total: 'R$ 215,52', original: 'R$ 269,40', monthly: 'R$ 35,92', discountText: '20% OFF' },
@@ -197,13 +202,29 @@ export default function App() {
                 };
 
                 return [
-                  { name: 'Bronze', color: 'border-orange-700', features: ['1 Conexão simultânea', 'Canais SD/HD', 'Filmes & Séries padrão'] },
-                  { name: 'Prata', color: 'border-gray-400', features: ['1 Conexão simulânea', 'Qualidade Full HD', 'Giga VOD Atualizado'] },
-                  { name: 'Ouro', color: 'border-yellow-500', features: ['2 Conexões simultâneas', 'Qualidade 4K Ultra HD', 'Suporte Prioritário VIP'] },
-                  { name: 'Diamante', color: 'border-blue-400', features: ['3 Conexões (2 IPTV + 1 P2P)', 'Qualidade Máxima UHD', 'Ideal para toda a família'] },
+                  { 
+                    name: 'Bronze', 
+                    color: 'border-orange-700', 
+                    features: ['1 Conexão simultânea', 'Atualização Semanal', 'Todos os Canais Liberados', 'Catálogo familiar (+10 Mil Filmes & Séries)', 'Muito Entretenimento (+100 Animes & Novelas)'] 
+                  },
+                  { 
+                    name: 'Prata', 
+                    color: 'border-gray-400', 
+                    features: ['1 Conexão simultânea', 'Atualização Diária', 'Todos os Canais Liberados', 'Catálogo familiar (+15 Mil Filmes & Séries)', 'Muito Entretenimento (+1 Mil Animes & Novelas)'] 
+                  },
+                  { 
+                    name: 'Ouro', 
+                    color: 'border-yellow-500', 
+                    features: ['2 Conexões simultâneas', 'Atualização Diária', 'Todos os Canais Liberados', 'Catálogo familiar (+30 Mil Filmes & Séries)', 'Muito Entretenimento (+3 Mil Animes & Novelas)'] 
+                  },
+                  { 
+                    name: 'Diamante', 
+                    color: 'border-blue-400', 
+                    features: ['3 Conexões (2 IPTV + 1 P2P)', 'Atualização Diária & Lançamentos', 'Todos os Canais Liberados', 'Catálogo familiar (+30 Mil Filmes & Séries)', 'Muito Entretenimento (+3 Mil Animes & Novelas)'] 
+                  },
                 ].map((plan) => {
                   const priceInfo = planPricing[plan.name][selectedPeriod];
-                  const periodText = selectedPeriod === '1' ? '1 mês' : `${selectedPeriod} meses`;
+                  const periodText = selectedPeriod === 'promo' ? 'Primeiro Mês' : selectedPeriod === '1' ? '1 mês' : `${selectedPeriod} meses`;
                   return (
                     <div key={plan.name} className={`bg-surface p-6 rounded-2xl border border-border border-t-4 ${plan.color} shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all flex flex-col justify-between relative overflow-hidden`}>
                       {priceInfo.discountText && (
@@ -227,7 +248,11 @@ export default function App() {
                           <span className="text-3xl font-display text-primary font-black block">
                             {priceInfo.total}
                           </span>
-                          {selectedPeriod !== '1' ? (
+                          {selectedPeriod === 'promo' ? (
+                            <span className="text-[11px] text-primary font-bold mt-1 block">
+                              Assinatura Direta Promo
+                            </span>
+                          ) : selectedPeriod !== '1' ? (
                             <span className="text-[11px] text-text-muted font-medium mt-1 block">
                               Equivale a <strong className="text-text-main">{priceInfo.monthly}/mês</strong>
                             </span>
@@ -241,7 +266,7 @@ export default function App() {
                         <ul className="space-y-2 text-xs text-text-muted border-t border-border/10 pt-4 mt-2">
                           {plan.features.map(f => (
                             <li key={f} className="flex items-start gap-1.5">
-                              <span className="text-primary">•</span>
+                              <span className="text-primary font-bold">✓</span>
                               <span>{f}</span>
                             </li>
                           ))}
@@ -249,7 +274,7 @@ export default function App() {
                       </div>
 
                       <button 
-                        onClick={() => handleSend(`Como funciona o plano ${plan.name} de ${periodText} por ${priceInfo.total}?`)}
+                        onClick={() => handleSend(`Como funciona a promoção do plano ${plan.name} de ${periodText} por ${priceInfo.total}?`)}
                         className="w-full mt-6 py-2.5 bg-primary hover:bg-red-700 text-white rounded-xl font-bold text-xs transition-all active:scale-95 shadow-md"
                       >
                         Ver Detalhes do {plan.name}
