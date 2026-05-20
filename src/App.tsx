@@ -131,10 +131,10 @@ export default function App() {
     switch (currentView) {
       case 'plans':
         return (
-          <div className="flex-1 overflow-y-auto p-8 space-y-8">
+          <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 md:space-y-8 pb-24 md:pb-8">
             <div>
-              <h2 className="text-3xl font-display text-primary tracking-wider mb-2">Planos & Preços</h2>
-              <p className="text-sm text-text-muted">Consulte os valores mensais e as opções de teste rápido para atendimento.</p>
+              <h2 className="text-2xl md:text-3xl font-display text-primary tracking-wider mb-2">Planos & Preços</h2>
+              <p className="text-xs md:text-sm text-text-muted">Consulte os valores mensais e as opções de teste rápido para atendimento.</p>
             </div>
 
             {/* Seletor de Períodos com Desconto */}
@@ -379,9 +379,9 @@ export default function App() {
         );
       case 'support':
         return (
-          <div className="flex-1 overflow-y-auto p-8 space-y-8">
-            <h2 className="text-3xl font-display text-primary tracking-wider">Suporte Técnico</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 md:space-y-8 pb-24 md:pb-8">
+            <h2 className="text-2xl md:text-3xl font-display text-primary tracking-wider">Suporte Técnico</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               {[
                 { title: 'Configuração DNS', desc: 'Passo a passo para TVs antigas.', icon: Settings },
                 { title: 'Problemas de Login', desc: 'Recuperação de acesso e senhas.', icon: User },
@@ -391,21 +391,21 @@ export default function App() {
                 <button 
                   key={item.title}
                   onClick={() => handleSend(`Como resolver: ${item.title}`)}
-                  className="flex items-start gap-4 p-6 bg-surface rounded-xl border border-border hover:border-primary/50 transition-all text-left group active:scale-95"
+                  className="flex items-start gap-3 md:gap-4 p-4 md:p-6 bg-surface rounded-xl border border-border hover:border-primary/50 transition-all text-left group active:scale-95"
                 >
-                  <div className="p-3 bg-surface-light rounded-lg group-hover:bg-primary transition-colors">
-                    <item.icon className="w-6 h-6" />
+                  <div className="p-2.5 md:p-3 bg-surface-light rounded-lg group-hover:bg-primary transition-colors">
+                    <item.icon className="w-5 h-5 md:w-6 md:h-6" />
                   </div>
                   <div>
-                    <h3 className="font-bold mb-1">{item.title}</h3>
-                    <p className="text-sm text-text-muted">{item.desc}</p>
+                    <h3 className="font-bold text-sm md:text-base mb-1">{item.title}</h3>
+                    <p className="text-xs md:text-sm text-text-muted">{item.desc}</p>
                   </div>
                 </button>
               ))}
             </div>
 
-            <div className="bg-surface p-6 rounded-2xl border border-border">
-              <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
+            <div className="bg-surface p-4 md:p-6 rounded-2xl border border-border">
+              <h3 className="text-lg md:text-xl font-bold mb-4 md:mb-6 flex items-center gap-2">
                 <ExternalLink className="w-5 h-5 text-primary" />
                 Links Úteis para Clientes
               </h3>
@@ -432,23 +432,54 @@ export default function App() {
         );
       case 'settings':
         return (
-          <div className="flex-1 overflow-y-auto p-8 space-y-8">
-            <h2 className="text-3xl font-display text-primary tracking-wider">Configurações</h2>
-            <div className="max-w-xl bg-surface p-8 rounded-2xl border border-border">
+          <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 md:space-y-8 pb-24 md:pb-8">
+            <h2 className="text-2xl md:text-3xl font-display text-primary tracking-wider">Configurações</h2>
+            <div className="max-w-xl bg-surface p-5 md:p-8 rounded-2xl border border-border">
               <div className="space-y-6">
-                <div className="flex items-center justify-between">
+                {/* Theme Selector directly in settings */}
+                <div className="flex items-center justify-between border-b border-border/10 pb-4">
                   <div>
-                    <h3 className="font-bold">Limpar Histórico</h3>
-                    <p className="text-sm text-text-muted">Apagar todas as mensagens atuais.</p>
+                    <h3 className="font-bold text-sm md:text-base">Tema do Aplicativo</h3>
+                    <p className="text-xs md:text-sm text-text-muted">Alternar entre claro e escuro.</p>
                   </div>
-                  <button onClick={handleClearChat} className="p-3 bg-red-500/10 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all active:scale-95">
-                    <Trash2 className="w-6 h-6" />
+                  <div className="bg-surface-light p-1 rounded-xl flex items-center border border-border">
+                    <button
+                      onClick={() => setTheme('light')}
+                      className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all ${
+                        theme === 'light' 
+                          ? 'bg-background text-primary shadow-sm' 
+                          : 'text-text-muted hover:text-text-main'
+                      }`}
+                    >
+                      Claro
+                    </button>
+                    <button
+                      onClick={() => setTheme('dark')}
+                      className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all ${
+                        theme === 'dark' 
+                          ? 'bg-background text-primary shadow-sm' 
+                          : 'text-text-muted hover:text-text-main'
+                      }`}
+                    >
+                      Escuro
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between border-b border-border/10 pb-4">
+                  <div>
+                    <h3 className="font-bold text-sm md:text-base">Limpar Conversa</h3>
+                    <p className="text-xs md:text-sm text-text-muted">Apagar todas as mensagens salvas.</p>
+                  </div>
+                  <button onClick={handleClearChat} className="p-2.5 md:p-3 bg-red-500/10 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all active:scale-95">
+                    <Trash2 className="w-5 h-5 md:w-6 md:h-6" />
                   </button>
                 </div>
+
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="font-bold">Modo de Resposta</h3>
-                    <p className="text-sm text-text-muted">Atualmente em modo "Assistente Pessoal".</p>
+                    <h3 className="font-bold text-sm md:text-base">Status da IA</h3>
+                    <p className="text-xs md:text-sm text-text-muted">Atualmente em modo "Atendimento Inteligente".</p>
                   </div>
                   <span className="px-3 py-1 bg-emerald-500/10 text-emerald-500 text-xs font-bold rounded-full">Ativo</span>
                 </div>
@@ -458,20 +489,20 @@ export default function App() {
         );
       default:
         return (
-          <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 scrollbar-hide">
+          <div className="flex-1 overflow-y-auto p-3 md:p-6 space-y-4 md:space-y-6 scrollbar-hide pb-24 md:pb-8">
             {messages.length === 0 && (
-              <div className="h-full flex flex-col items-center justify-center text-center max-w-2xl mx-auto space-y-8">
+              <div className="min-h-full flex flex-col items-center justify-center text-center max-w-2xl mx-auto py-4 md:py-8 space-y-6 md:space-y-8">
                 <motion.div 
-                  initial={{ scale: 0.9, opacity: 0 }}
+                  initial={{ scale: 0.95, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  className="bg-surface p-10 rounded-3xl shadow-2xl border border-border"
+                  className="bg-surface p-6 md:p-10 rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl border border-border w-full"
                 >
-                  <h1 className="text-6xl font-display text-primary tracking-tighter mb-4">ONEFLIX</h1>
-                  <p className="text-text-muted text-lg font-light leading-relaxed mb-8">
+                  <h1 className="text-4xl md:text-6xl font-display text-primary tracking-tighter mb-2 md:mb-4">ONEFLIX</h1>
+                  <p className="text-text-muted text-sm md:text-lg font-light leading-relaxed mb-6 md:mb-8">
                     Seu assistente pessoal para atendimento IPTV.<br/>
                     Gere respostas profissionais para seus clientes em segundos.
                   </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
                     {[
                       { label: 'Plano Diamante', icon: Tv },
                       { label: 'Configurar DNS', icon: Settings },
@@ -481,10 +512,10 @@ export default function App() {
                       <button
                         key={suggestion.label}
                         onClick={() => handleSend(`Cliente quer saber sobre: ${suggestion.label}`)}
-                        className="flex items-center gap-3 p-5 bg-surface-light border border-border rounded-xl text-sm font-bold transition-all group active:scale-95"
+                        className="flex items-center gap-2.5 md:gap-3 p-4 md:p-5 bg-surface-light border border-border rounded-xl text-xs md:text-sm font-bold transition-all group active:scale-95"
                       >
-                        <suggestion.icon className="w-5 h-5 text-primary group-hover:text-white" />
-                        <span className="text-text-main group-hover:text-white">{suggestion.label}</span>
+                        <suggestion.icon className="w-4 h-4 md:w-5 md:h-5 text-primary group-hover:text-white flex-shrink-0" />
+                        <span className="text-text-main group-hover:text-white truncate">{suggestion.label}</span>
                       </button>
                     ))}
                   </div>
@@ -500,34 +531,41 @@ export default function App() {
                   animate={{ opacity: 1, y: 0 }}
                   className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
-                  <div className={`flex gap-3 max-w-[90%] md:max-w-[80%] ${message.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 shadow-lg ${
+                  <div className={`flex gap-2 md:gap-3 max-w-[95%] md:max-w-[80%] ${message.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
+                    <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center flex-shrink-0 shadow-md ${
                       message.role === 'user' ? 'bg-primary' : 'bg-surface-light border border-white/10'
                     }`}>
-                      {message.role === 'user' ? <User className="w-5 h-5 text-white" /> : <Bot className="w-5 h-5 text-primary" />}
+                      {message.role === 'user' ? <User className="w-4.5 h-4.5 text-white" /> : <Bot className="w-4.5 h-4.5 text-primary" />}
                     </div>
-                    <div className="relative group">
-                      <div className={`p-4 md:p-5 rounded-2xl shadow-xl ${
+                    <div className="relative group flex flex-col items-start">
+                      <div className={`p-3.5 md:p-5 rounded-2xl shadow-md ${
                         message.role === 'user' 
-                          ? 'bg-primary text-white rounded-tr-none ml-4' 
-                          : 'bg-surface text-text-main border border-border rounded-tl-none mr-4'
+                          ? 'bg-primary text-white rounded-tr-none ml-2 md:ml-4' 
+                          : 'bg-surface text-text-main border border-border rounded-tl-none mr-2 md:mr-4'
                       }`}>
-                        <p className="text-[13px] md:text-base leading-relaxed whitespace-pre-wrap">
+                        <p className="text-xs md:text-base leading-relaxed whitespace-pre-wrap">
                           {message.content}
                         </p>
                       </div>
                       {message.role === 'model' && (
-                        <button
-                          onClick={() => handleCopy(message.content, index)}
-                          className="absolute -right-14 top-0 p-3.5 bg-surface-light border border-white/10 rounded-xl shadow-xl opacity-0 group-hover:opacity-100 transition-all hover:bg-primary hover:text-white active:scale-90"
-                          title="Copiar resposta"
-                        >
-                          {copiedIndex === index ? (
-                            <Check className="w-5 h-5" />
-                          ) : (
-                            <Copy className="w-5 h-5" />
-                          )}
-                        </button>
+                        <div className="flex items-center gap-2 mt-1.5 ml-0">
+                          <button
+                            onClick={() => handleCopy(message.content, index)}
+                            className="flex items-center gap-1.5 px-3 py-1.5 bg-surface border border-border hover:border-primary/50 text-[11px] font-bold text-text-muted hover:text-primary rounded-lg transition-all active:scale-95 shadow-sm"
+                          >
+                            {copiedIndex === index ? (
+                              <>
+                                <Check className="w-3.5 h-3.5 text-emerald-500" />
+                                <span className="text-emerald-500">Copiado!</span>
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="w-3.5 h-3.5 text-primary" />
+                                <span>Copiar Resposta</span>
+                              </>
+                            )}
+                          </button>
+                        </div>
                       )}
                     </div>
                   </div>
@@ -537,13 +575,13 @@ export default function App() {
             
             {isLoading && (
               <div className="flex justify-start">
-                <div className="flex gap-3 max-w-[85%]">
-                  <div className="w-10 h-10 rounded-full bg-surface-light border border-white/10 flex items-center justify-center">
-                    <Bot className="w-5 h-5 text-primary" />
+                <div className="flex gap-2.5 md:gap-3 max-w-[85%]">
+                  <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-surface-light border border-white/10 flex items-center justify-center">
+                    <Bot className="w-4.5 h-4.5 text-primary" />
                   </div>
-                  <div className="bg-surface p-5 rounded-2xl border border-border rounded-tl-none shadow-xl flex items-center gap-3">
-                    <Loader2 className="w-5 h-5 text-primary animate-spin" />
-                    <span className="text-sm text-text-muted font-medium">Processando resposta...</span>
+                  <div className="bg-surface p-4 md:p-5 rounded-2xl border border-border rounded-tl-none shadow-md flex items-center gap-2.5">
+                    <Loader2 className="w-4 h-4 md:w-5 md:h-5 text-primary animate-spin" />
+                    <span className="text-xs md:text-sm text-text-muted font-medium">Processando resposta...</span>
                   </div>
                 </div>
               </div>
@@ -647,22 +685,29 @@ export default function App() {
       </aside>
 
       {/* Main Area */}
-      <main className="flex-1 flex flex-col relative">
+      <main className="flex-1 flex flex-col relative w-full overflow-hidden">
         {/* Mobile Header */}
-        <header className="md:hidden bg-surface border-b border-border p-4 flex items-center justify-between">
-          <button onClick={handleGoHome} className="hover:opacity-80 transition-opacity p-2">
-            <h1 className="text-2xl font-display text-primary tracking-tighter">ONEFLIX</h1>
+        <header className="md:hidden bg-surface border-b border-border p-4 flex items-center justify-between sticky top-0 z-20 shadow-sm">
+          <button onClick={handleGoHome} className="hover:opacity-80 transition-opacity flex items-center gap-2">
+            <div className="w-6 h-6 bg-primary rounded flex items-center justify-center shadow shadow-primary/30">
+              <Tv className="w-4 h-4 text-white" />
+            </div>
+            <h1 className="text-xl font-display text-primary tracking-tighter">ONEFLIX</h1>
           </button>
           <div className="flex gap-2">
-            <button onClick={handleClearChat} className="p-3 rounded-lg bg-surface-light text-red-500 active:scale-95">
-              <Trash2 className="w-5 h-5" />
+            {/* Smooth Theme Toggle inside Mobile Header */}
+            <button 
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} 
+              className="p-2 md:p-3 rounded-lg bg-surface-light text-text-muted hover:text-text-main active:scale-95"
+              title="Mudar Tema"
+            >
+              {theme === 'dark' ? <Sun className="w-4.5 h-4.5 text-yellow-500" /> : <Moon className="w-4.5 h-4.5 text-indigo-500" />}
             </button>
-            <button onClick={() => setCurrentView('chat')} className={`p-3 rounded-lg ${currentView === 'chat' ? 'bg-primary text-white' : 'bg-surface-light'} active:scale-95`}>
-              <MessageCircle className="w-6 h-6" />
-            </button>
-            <button onClick={() => setCurrentView('plans')} className={`p-3 rounded-lg ${currentView === 'plans' ? 'bg-primary text-white' : 'bg-surface-light'} active:scale-95`}>
-              <Info className="w-6 h-6" />
-            </button>
+            {currentView === 'chat' && (
+              <button onClick={handleClearChat} className="p-2 md:p-3 rounded-lg bg-surface-light text-red-500 active:scale-95">
+                <Trash2 className="w-4.5 h-4.5" />
+              </button>
+            )}
           </div>
         </header>
 
@@ -691,7 +736,7 @@ export default function App() {
 
         {/* Input Area (Chat Only) */}
         {currentView === 'chat' && (
-          <div className="p-6 md:p-8 bg-background border-t border-border">
+          <div className="p-4 md:p-8 bg-background border-t border-border pb-24 md:pb-8">
             <div className="max-w-5xl mx-auto relative">
               <textarea
                 rows={1}
@@ -699,21 +744,45 @@ export default function App() {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyPress}
                 placeholder="Como posso ajudar?"
-                className="w-full bg-surface border border-border rounded-2xl py-4 md:py-5 pl-5 md:pl-6 pr-14 md:pr-16 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all resize-none shadow-xl md:shadow-2xl"
+                className="w-full bg-surface border border-border rounded-xl py-3.5 md:py-5 pl-4 md:pl-6 pr-12 md:pr-16 text-sm md:text-base focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all resize-none shadow-lg md:shadow-2xl"
               />
               <button
                 onClick={() => handleSend()}
                 disabled={!input.trim() || isLoading}
-                className="absolute right-2 md:right-3 top-1/2 -translate-y-1/2 p-3 bg-primary hover:bg-red-700 disabled:bg-surface-light disabled:text-text-muted text-white rounded-xl transition-all shadow-xl active:scale-90"
+                className="absolute right-2 md:right-3 top-1/2 -translate-y-1/2 p-2 bg-primary hover:bg-red-700 disabled:bg-surface-light disabled:text-text-muted text-white rounded-lg transition-all shadow-md active:scale-90"
               >
-                {isLoading ? <Loader2 className="w-5 h-5 md:w-6 md:h-6 animate-spin" /> : <Send className="w-5 h-5 md:w-6 md:h-6" />}
+                {isLoading ? <Loader2 className="w-4 h-4 md:w-5 md:h-5 animate-spin" /> : <Send className="w-4 h-4 md:w-5 md:h-5" />}
               </button>
             </div>
-            <p className="text-center text-[10px] text-text-muted mt-4 uppercase tracking-[0.3em] font-bold opacity-50">
+            <p className="text-center text-[9px] text-text-muted mt-3 uppercase tracking-[0.3em] font-bold opacity-50 hidden sm:block">
               OneFlix Assistente • Tecnologia de Atendimento Inteligente
             </p>
           </div>
         )}
+
+        {/* Mobile Bottom Navigation Bar */}
+        <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-surface/90 backdrop-blur-lg border-t border-border flex items-center justify-around px-2 z-30 shadow-lg">
+          {[
+            { id: 'chat', label: 'Conversa', icon: MessageCircle },
+            { id: 'plans', label: 'Planos', icon: Info },
+            { id: 'support', label: 'Suporte', icon: HelpCircle },
+            { id: 'settings', label: 'Ajustes', icon: Settings },
+          ].map((item) => {
+            const isActive = currentView === item.id;
+            return (
+              <button
+                key={item.id}
+                onClick={() => setCurrentView(item.id as View)}
+                className={`flex flex-col items-center justify-center gap-1 flex-1 py-1 px-2 rounded-xl transition-all ${
+                  isActive ? 'text-primary' : 'text-text-muted'
+                }`}
+              >
+                <item.icon className={`w-5 h-5 transition-transform ${isActive ? 'scale-110 text-primary' : 'text-text-muted'}`} />
+                <span className="text-[10px] font-bold tracking-tight">{item.label}</span>
+              </button>
+            );
+          })}
+        </nav>
       </main>
     </div>
   );
