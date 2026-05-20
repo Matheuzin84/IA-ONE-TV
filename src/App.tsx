@@ -16,6 +16,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [copiedPix, setCopiedPix] = useState(false);
+  const [selectedPeriod, setSelectedPeriod] = useState<'1' | '3' | '6' | '12'>('1');
   const [currentView, setCurrentView] = useState<View>('chat');
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
     if (typeof window !== 'undefined') {
@@ -136,27 +137,127 @@ export default function App() {
               <p className="text-sm text-text-muted">Consulte os valores mensais e as opções de teste rápido para atendimento.</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Seletor de Períodos com Desconto */}
+            <div className="bg-surface p-1.5 rounded-2xl border border-border inline-flex flex-wrap gap-1 max-w-full">
               {[
-                { name: 'Bronze', price: 'R$ 19,90', features: ['1 Acesso', 'Canais SD/HD', 'VOD Básico'], color: 'border-orange-700' },
-                { name: 'Prata', price: 'R$ 24,90', features: ['1 Acesso', 'Canais Full HD', 'VOD Completo'], color: 'border-gray-400' },
-                { name: 'Ouro', price: 'R$ 34,90', features: ['2 Acessos', '4K Ultra HD', 'Suporte VIP'], color: 'border-yellow-500' },
-                { name: 'Diamante', price: 'R$ 44,90', features: ['3 Acessos', 'Máxima Qualidade', 'Lançamentos'], color: 'border-blue-400' },
-              ].map((plan) => (
-                <div key={plan.name} className={`bg-surface p-6 rounded-xl border border-border border-t-4 ${plan.color} shadow-lg hover:shadow-2xl hover:scale-105 transition-all`}>
-                  <h3 className="text-xl font-bold mb-2">{plan.name}</h3>
-                  <p className="text-2xl font-display text-primary mb-4">{plan.price}</p>
-                  <ul className="space-y-2 text-sm text-text-muted">
-                    {plan.features.map(f => <li key={f}>• {f}</li>)}
-                  </ul>
-                  <button 
-                    onClick={() => handleSend(`Me fale mais sobre o plano ${plan.name}`)}
-                    className="w-full mt-6 py-3 bg-primary text-white rounded-md font-bold text-sm hover:bg-red-700 transition-colors active:scale-95"
-                  >
-                    Ver Detalhes
-                  </button>
-                </div>
+                { id: '1', label: '1 Mês', discount: 'Regular' },
+                { id: '3', label: '3 Meses', discount: '10% OFF' },
+                { id: '6', label: '6 Meses', discount: '20% OFF' },
+                { id: '12', label: '12 Meses', discount: '30% OFF' },
+              ].map((period) => (
+                <button
+                  key={period.id}
+                  onClick={() => setSelectedPeriod(period.id as any)}
+                  className={`px-4 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center gap-2 ${
+                    selectedPeriod === period.id
+                      ? 'bg-primary text-white shadow-lg'
+                      : 'hover:bg-surface-light text-text-muted hover:text-text-main'
+                  }`}
+                >
+                  <span>{period.label}</span>
+                  <span className={`text-[9px] px-1.5 py-0.5 rounded-md font-black uppercase ${
+                    selectedPeriod === period.id
+                      ? 'bg-white/20 text-white'
+                      : period.id === '1' ? 'bg-border text-text-muted' : 'bg-primary/10 text-primary'
+                  }`}>
+                    {period.discount}
+                  </span>
+                </button>
               ))}
+            </div>
+
+            {/* Grid de Planos */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {(() => {
+                const planPricing: Record<string, Record<'1' | '3' | '6' | '12', { total: string; original: string; monthly: string; discountText: string }>> = {
+                  Bronze: {
+                    '1': { total: 'R$ 19,90', original: '', monthly: 'R$ 19,90', discountText: '' },
+                    '3': { total: 'R$ 53,23', original: 'R$ 59,70', monthly: 'R$ 17,74', discountText: '10% OFF' },
+                    '6': { total: 'R$ 95,52', original: 'R$ 119,40', monthly: 'R$ 15,92', discountText: '20% OFF' },
+                    '12': { total: 'R$ 167,16', original: 'R$ 238,80', monthly: 'R$ 13,93', discountText: '30% OFF' },
+                  },
+                  Prata: {
+                    '1': { total: 'R$ 24,90', original: '', monthly: 'R$ 24,90', discountText: '' },
+                    '3': { total: 'R$ 67,23', original: 'R$ 74,70', monthly: 'R$ 22,41', discountText: '10% OFF' },
+                    '6': { total: 'R$ 119,52', original: 'R$ 149,40', monthly: 'R$ 19,92', discountText: '20% OFF' },
+                    '12': { total: 'R$ 209,16', original: 'R$ 298,80', monthly: 'R$ 17,43', discountText: '30% OFF' },
+                  },
+                  Ouro: {
+                    '1': { total: 'R$ 34,90', original: '', monthly: 'R$ 34,90', discountText: '' },
+                    '3': { total: 'R$ 94,23', original: 'R$ 104,70', monthly: 'R$ 31,41', discountText: '10% OFF' },
+                    '6': { total: 'R$ 167,52', original: 'R$ 209,40', monthly: 'R$ 27,92', discountText: '20% OFF' },
+                    '12': { total: 'R$ 293,16', original: 'R$ 418,80', monthly: 'R$ 24,43', discountText: '30% OFF' },
+                  },
+                  Diamante: {
+                    '1': { total: 'R$ 44,90', original: '', monthly: 'R$ 44,90', discountText: '' },
+                    '3': { total: 'R$ 121,23', original: 'R$ 134,70', monthly: 'R$ 40,41', discountText: '10% OFF' },
+                    '6': { total: 'R$ 215,52', original: 'R$ 269,40', monthly: 'R$ 35,92', discountText: '20% OFF' },
+                    '12': { total: 'R$ 377,16', original: 'R$ 538,80', monthly: 'R$ 31,43', discountText: '30% OFF' },
+                  },
+                };
+
+                return [
+                  { name: 'Bronze', color: 'border-orange-700', features: ['1 Conexão simultânea', 'Canais SD/HD', 'Filmes & Séries padrão'] },
+                  { name: 'Prata', color: 'border-gray-400', features: ['1 Conexão simulânea', 'Qualidade Full HD', 'Giga VOD Atualizado'] },
+                  { name: 'Ouro', color: 'border-yellow-500', features: ['2 Conexões simultâneas', 'Qualidade 4K Ultra HD', 'Suporte Prioritário VIP'] },
+                  { name: 'Diamante', color: 'border-blue-400', features: ['3 Conexões (2 IPTV + 1 P2P)', 'Qualidade Máxima UHD', 'Ideal para toda a família'] },
+                ].map((plan) => {
+                  const priceInfo = planPricing[plan.name][selectedPeriod];
+                  const periodText = selectedPeriod === '1' ? '1 mês' : `${selectedPeriod} meses`;
+                  return (
+                    <div key={plan.name} className={`bg-surface p-6 rounded-2xl border border-border border-t-4 ${plan.color} shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all flex flex-col justify-between relative overflow-hidden`}>
+                      {priceInfo.discountText && (
+                        <div className="absolute top-0 right-0 bg-primary text-white text-[9px] font-black uppercase px-2 py-1 rounded-bl-xl">
+                          {priceInfo.discountText}
+                        </div>
+                      )}
+                      <div>
+                        <h3 className="text-xl font-bold mb-1">{plan.name}</h3>
+                        
+                        <div className="my-4">
+                          {priceInfo.original ? (
+                            <span className="text-xs text-text-muted line-through block mb-0.5">
+                              {priceInfo.original}
+                            </span>
+                          ) : (
+                            <span className="text-xs text-transparent block mb-0.5 select-none">
+                              Placeholder
+                            </span>
+                          )}
+                          <span className="text-3xl font-display text-primary font-black block">
+                            {priceInfo.total}
+                          </span>
+                          {selectedPeriod !== '1' ? (
+                            <span className="text-[11px] text-text-muted font-medium mt-1 block">
+                              Equivale a <strong className="text-text-main">{priceInfo.monthly}/mês</strong>
+                            </span>
+                          ) : (
+                            <span className="text-[11px] text-text-muted font-medium mt-1 block">
+                              Pagamento mensal
+                            </span>
+                          )}
+                        </div>
+
+                        <ul className="space-y-2 text-xs text-text-muted border-t border-border/10 pt-4 mt-2">
+                          {plan.features.map(f => (
+                            <li key={f} className="flex items-start gap-1.5">
+                              <span className="text-primary">•</span>
+                              <span>{f}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <button 
+                        onClick={() => handleSend(`Como funciona o plano ${plan.name} de ${periodText} por ${priceInfo.total}?`)}
+                        className="w-full mt-6 py-2.5 bg-primary hover:bg-red-700 text-white rounded-xl font-bold text-xs transition-all active:scale-95 shadow-md"
+                      >
+                        Ver Detalhes do {plan.name}
+                      </button>
+                    </div>
+                  );
+                });
+              })()}
             </div>
 
             <div className="bg-surface p-6 rounded-2xl border border-border mt-8">

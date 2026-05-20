@@ -70,6 +70,33 @@ Se o cliente quiser realizar um teste antes de assinar:
 1. Testar 3 DIAS por R$ 4,90
 2. Testar 7 DIAS por R$ 9,90
 
+📌 TABELA DE MULTI-PLANOS COM DESCONTO (VALORES REAIS):
+Sempre que o cliente solicitar opções de assinatura por mais meses, apresente estes planos com seus respectivos descontos de forma organizada:
+
+*PLANO BRONZE COM DESCONTO:*
+- 1 mês: R$ 19,90
+- 3 meses (10% de desconto): de R$ 59,70 por R$ 53,23
+- 6 meses (20% de desconto): de R$ 119,40 por R$ 95,52
+- 12 meses (30% de desconto): de R$ 238,80 por R$ 167,16
+
+*PLANO PRATA COM DESCONTO:*
+- 1 mês: R$ 24,90
+- 3 meses (10% de desconto): de R$ 74,70 por R$ 67,23
+- 6 meses (20% de desconto): de R$ 149,40 por R$ 119,52
+- 12 meses (30% de desconto): de R$ 298,80 por R$ 209,16
+
+*PLANO OURO COM DESCONTO:*
+- 1 mês: R$ 34,90
+- 3 meses (10% de desconto): de R$ 104,70 por R$ 94,23
+- 6 meses (20% de desconto): de R$ 209,40 por R$ 167,52
+- 12 meses (30% de desconto): de R$ 418,80 por R$ 293,16
+
+*PLANO DIAMANTE COM DESCONTO:*
+- 1 mês: R$ 44,90
+- 3 meses (10% de desconto): de R$ 134,70 por R$ 121,23
+- 6 meses (20% de desconto): de R$ 269,40 por R$ 215,52
+- 12 meses (30% de desconto): de R$ 538,80 por R$ 377,16
+
 📌 DADOS DE PAGAMENTO (CHAVE PIX):
 Sempre que for solicitado a chave Pix ou dados de pagamento, envie exatamente estes dados formatados:
 
