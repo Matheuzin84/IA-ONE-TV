@@ -130,7 +130,11 @@ export default function App() {
       case 'plans':
         return (
           <div className="flex-1 overflow-y-auto p-8 space-y-8">
-            <h2 className="text-3xl font-display text-primary tracking-wider">Planos & Preços</h2>
+            <div>
+              <h2 className="text-3xl font-display text-primary tracking-wider mb-2">Planos & Preços</h2>
+              <p className="text-sm text-text-muted">Consulte os valores mensais e as opções de teste rápido para atendimento.</p>
+            </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
                 { name: 'Bronze', price: 'R$ 19,90', features: ['1 Acesso', 'Canais SD/HD', 'VOD Básico'], color: 'border-orange-700' },
@@ -152,6 +156,42 @@ export default function App() {
                   </button>
                 </div>
               ))}
+            </div>
+
+            <div className="bg-surface p-6 rounded-2xl border border-border mt-8">
+              <h3 className="text-xl font-bold mb-2 text-primary flex items-center gap-2">
+                ⚡ Valores para Realizar Testes
+              </h3>
+              <p className="text-sm text-text-muted mb-6">
+                Opções rápidas para novos clientes conhecerem a qualidade dos servidores.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl">
+                {[
+                  { days: '3 Dias', price: 'R$ 4,90', highlight: false, features: ['Acesso completo aos canais', 'Sem compromisso', 'Suporte total no período'] },
+                  { days: '7 Dias', price: 'R$ 9,90', highlight: true, features: ['Acesso completo aos canais', 'Ideal para avaliação completa', 'Suporte total no período'] },
+                ].map((test) => (
+                  <div key={test.days} className={`bg-surface-light p-6 rounded-xl border ${test.highlight ? 'border-primary' : 'border-border'} relative overflow-hidden flex flex-col justify-between shadow-md`}>
+                    {test.highlight && (
+                      <span className="absolute top-2 right-2 bg-primary text-white text-[9px] font-black uppercase px-2 py-0.5 rounded">
+                        Recomendado
+                      </span>
+                    )}
+                    <div>
+                      <h4 className="font-bold text-base">{test.days} de Experiência</h4>
+                      <p className="text-2xl font-display text-primary mt-2 mb-4">{test.price}</p>
+                      <ul className="space-y-1.5 text-xs text-text-muted">
+                        {test.features.map(f => <li key={f} className="flex items-center gap-1.5"><span>•</span> {f}</li>)}
+                      </ul>
+                    </div>
+                    <button
+                      onClick={() => handleSend(`Como funciona o teste de ${test.days} por ${test.price}?`)}
+                      className="w-full mt-6 py-2 bg-background border border-border text-text-main rounded-lg font-bold text-xs hover:bg-primary hover:text-white transition-colors active:scale-95"
+                    >
+                      Ver Detalhes do Teste
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         );

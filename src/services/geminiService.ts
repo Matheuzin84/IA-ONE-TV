@@ -65,6 +65,11 @@ Observação se necessário:
 
 📺 BASE DE DADOS DETALHADA:
 
+📌 VALORES DE TESTE (EXPERIÊNCIA):
+Se o cliente quiser realizar um teste antes de assinar:
+1. Testar 3 DIAS por R$ 4,90
+2. Testar 7 DIAS por R$ 9,90
+
 📌 CONEXÕES SIMULTÂNEAS - PLANO DIAMANTE:
 O plano Diamante permite 3 conexões simultâneas, divididas da seguinte forma:
 - 2 Aparelhos IPTV: TVs Samsung, LG, Roku, iPhone, Computador, etc.
