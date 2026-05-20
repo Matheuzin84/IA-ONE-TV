@@ -15,6 +15,7 @@ export default function App() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+  const [copiedPix, setCopiedPix] = useState(false);
   const [currentView, setCurrentView] = useState<View>('chat');
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
     if (typeof window !== 'undefined') {
@@ -191,6 +192,61 @@ export default function App() {
                     </button>
                   </div>
                 ))}
+              </div>
+            </div>
+
+            {/* Pix Payment Card */}
+            <div className="bg-surface p-6 rounded-2xl border border-border mt-8 max-w-2xl">
+              <h3 className="text-xl font-bold mb-2 text-primary flex items-center gap-2">
+                🔑 Dados para Pagamento Pix
+              </h3>
+              <p className="text-sm text-text-muted mb-6">
+                Utilize os dados abaixo para pagamentos de planos ou taxas de teste. Copie a chave CNPJ para facilitar.
+              </p>
+              
+              <div className="bg-surface-light p-6 rounded-xl border border-border space-y-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-border/10">
+                  <div>
+                    <span className="text-[10px] font-bold text-text-muted uppercase tracking-wider block mb-1">Chave CNPJ (Copia e Cola)</span>
+                    <span className="text-base font-mono font-bold text-text-main">56.173.325.0001-20</span>
+                  </div>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText('56.173.325/0001-20');
+                      setCopiedPix(true);
+                      setTimeout(() => setCopiedPix(false), 2000);
+                    }}
+                    className="flex items-center justify-center gap-2 px-4 py-2.5 bg-primary hover:bg-red-700 text-white rounded-lg font-bold text-xs transition-colors self-start sm:self-center shadow-lg active:scale-95"
+                  >
+                    {copiedPix ? (
+                      <>
+                        <Check className="w-4 h-4" />
+                        Copiado!
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-4 h-4" />
+                        Copiar Chave CNPJ
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <span className="text-[10px] font-bold text-text-muted uppercase tracking-wider block mb-1">Titular</span>
+                    <span className="font-bold text-text-main">VISUAL E DIGITAL TECNOLOGIA LTDA</span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-text-muted uppercase tracking-wider block mb-1">Banco</span>
+                    <span className="font-bold text-text-main">CLOUDWALK IP LTDA</span>
+                  </div>
+                </div>
+
+                <div className="pt-4 border-t border-border/10 text-xs text-text-muted flex items-start gap-2">
+                  <span className="text-emerald-500 font-bold">✅</span>
+                  <span>Após efetuar o pagamento, <strong>envie o comprovante</strong> no chat ou para seu atendente e aguarde sua liberação! 📄</span>
+                </div>
               </div>
             </div>
           </div>

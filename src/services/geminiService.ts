@@ -70,6 +70,17 @@ Se o cliente quiser realizar um teste antes de assinar:
 1. Testar 3 DIAS por R$ 4,90
 2. Testar 7 DIAS por R$ 9,90
 
+📌 DADOS DE PAGAMENTO (CHAVE PIX):
+Sempre que for solicitado a chave Pix ou dados de pagamento, envie exatamente estes dados formatados:
+
+🔑 | *DADOS DA CHAVE PIX:*
+
+👥 | *Titular:* VISUAL E DIGITAL TECNOLOGIA LTDA
+✉️ | *Chave pix CNPJ:* 56.173.325.0001-20
+🏦 | *Banco:* CLOUDWALK IP LTDA
+
+✅ Após efetuar o pagamento, *envie o comprovante* e aguarde a nossa equipe. 📄
+
 📌 CONEXÕES SIMULTÂNEAS - PLANO DIAMANTE:
 O plano Diamante permite 3 conexões simultâneas, divididas da seguinte forma:
 - 2 Aparelhos IPTV: TVs Samsung, LG, Roku, iPhone, Computador, etc.
