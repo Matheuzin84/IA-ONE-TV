@@ -1,6 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 
-const modelName = "gemini-3-flash-preview";
+const modelName = "gemini-3.5-flash";
 
 let aiInstance: GoogleGenAI | null = null;
 
@@ -17,7 +17,14 @@ function getAIInstance() {
       throw new Error('CONFIG_ERROR');
     }
     
-    aiInstance = new GoogleGenAI({ apiKey });
+    aiInstance = new GoogleGenAI({ 
+      apiKey,
+      httpOptions: {
+        headers: {
+          'User-Agent': 'aistudio-build',
+        }
+      }
+    });
   }
   return aiInstance;
 }

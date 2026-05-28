@@ -78,18 +78,39 @@ export default function App() {
       setMessages(prev => [...prev, { role: 'model', content: '' }]);
       
       let fullResponse = '';
-      const stream = chatWithAIStream(userMessage, history);
-      
-      for await (const chunk of stream) {
-        fullResponse += chunk;
-        setMessages(prev => {
-          const newMessages = [...prev];
-          const lastIndex = newMessages.length - 1;
-          if (newMessages[lastIndex].role === 'model') {
-            newMessages[lastIndex] = { ...newMessages[lastIndex], content: fullResponse };
-          }
-          return newMessages;
-        });
+      try {
+        const stream = chatWithAIStream(userMessage, history);
+        
+        for await (const chunk of stream) {
+          fullResponse += chunk;
+          setMessages(prev => {
+            const newMessages = [...prev];
+            const lastIndex = newMessages.length - 1;
+            if (newMessages[lastIndex].role === 'model') {
+              newMessages[lastIndex] = { ...newMessages[lastIndex], content: fullResponse };
+            }
+            return newMessages;
+          });
+        }
+      } catch (streamError: any) {
+        console.warn('Falha na stream do Gemini, ativando fallback tradicional...', streamError);
+        if (streamError?.message === 'CONFIG_ERROR') {
+          throw streamError;
+        }
+        
+        // Se a stream falhou sem retornar nada, ativa o fallback com POST único normal
+        if (!fullResponse) {
+          const fallbackText = await chatWithAI(userMessage, history);
+          fullResponse = fallbackText || '';
+          setMessages(prev => {
+            const newMessages = [...prev];
+            const lastIndex = newMessages.length - 1;
+            if (newMessages[lastIndex].role === 'model') {
+              newMessages[lastIndex] = { ...newMessages[lastIndex], content: fullResponse };
+            }
+            return newMessages;
+          });
+        }
       }
 
       if (!fullResponse) {
