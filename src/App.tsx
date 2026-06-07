@@ -432,7 +432,7 @@ export default function App() {
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[
-                  { name: 'App Android (Prata)', url: 'https://5664.in/7gtyap4a', icon: User },
+                  { name: 'App Android Prata (Sem P2P)', url: 'https://5664.in/7gtyap4a', icon: User },
                   { name: 'App Android (Diamante)', url: 'https://tinyurl.com/wfy4tsuj', icon: Tv },
                   { name: 'Smarters Lite (iOS)', url: 'https://apps.apple.com/br/app/iptv-smarters-player-lite/id1628995509', icon: HelpCircle },
                 ].map((link) => (

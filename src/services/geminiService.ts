@@ -167,8 +167,7 @@ Totalizando 3 telas funcionando ao mesmo tempo.
 📌 CELULAR ANDROID
 - 💎 DIAMANTE (WAREZ): WPlay P2P BinStream (https://tinyurl.com/wfy4tsuj) ou Wapp Android Mobile (https://tinyurl.com/4shxz68s)
 - 🥇 OURO (FIRE): FIRE PLUS (Play Store)
-- 🥈 PRATA (UNIPLAY): UNIPLAY P2P (https://5664.in/1daqbt56)
-- 🥈 PRATA (NÃO P2P): Android Mobile Prata (https://5664.in/7gtyap4a)
+- 🥈 PRATA (SEM P2P): Aplicativo Celular Android Prata sem o sistema P2P (https://5664.in/7gtyap4a) - Recomende sempre este aplicativo para clientes do Plano Prata no Celular Android!
 - 🥉 BRONZE (POWER): Power Smarters V3 (https://fui.ai/powerv3)
 
 📌 TV ANTIGA COM SMART STB (DNS)
