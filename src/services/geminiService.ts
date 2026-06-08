@@ -43,7 +43,7 @@ Sua base de dados contém informações sobre:
 - 💎 WAREZ: http://kmediaplay.click
 - 🔥 FIRE: http://smdns.dev ou http://bkpac.cc
 - ♣️ CLUB: http://clbsrv.top
-- 🚀 UNIPLAY: http://smpro75.cfd ou http://msterup.com
+- 🚀 UNIPLAY: http://blushes.top
 - ⚡ POWER: http://pplay.top:80
 
 📥 CÓDIGOS DOWNLOADER:
@@ -161,7 +161,7 @@ Totalizando 3 telas funcionando ao mesmo tempo.
 📌 CELULAR IPHONE
 - 💎 DIAMANTE (WAREZ): WPLAY MOBILE (App Store) - URL: http://kmediaplay.click
 - 🥇 OURO (FIRE): SMARTERS PLAYER LITE (App Store) - URL: http://smdns.dev ou http://bkpac.cc
-- 🥈 PRATA (UNIPLAY): SMARTERS PLAYER LITE (App Store) - URL: http://smpro75.cfd ou http://msterup.com
+- 🥈 PRATA (UNIPLAY): SMARTERS PLAYER LITE (App Store) - URL: http://blushes.top
 - 🥉 BRONZE (POWER): SMARTERS PLAYER LITE (App Store) - URL: http://pplay.top:80
 
 📌 CELULAR ANDROID
