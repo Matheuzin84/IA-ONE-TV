@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Send, Bot, User, Loader2, Tv, Info, MessageCircle, Settings, HelpCircle, Copy, Check, Trash2, ExternalLink, Sun, Moon } from 'lucide-react';
+import { Send, Bot, User, Loader2, Tv, Info, MessageCircle, Settings, HelpCircle, Copy, Check, Trash2, ExternalLink, Sun, Moon, Smartphone, Menu, X, Key, Sparkles, RefreshCw } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { chatWithAI, chatWithAIStream } from './services/geminiService';
 
@@ -8,7 +8,7 @@ interface Message {
   content: string;
 }
 
-type View = 'chat' | 'plans' | 'support' | 'settings';
+type View = 'chat' | 'gestor_v3' | 'plans' | 'support' | 'settings';
 
 export default function App() {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -18,6 +18,10 @@ export default function App() {
   const [copiedPix, setCopiedPix] = useState(false);
   const [selectedPeriod, setSelectedPeriod] = useState<'promo' | '1' | '3' | '6' | '12'>('promo');
   const [currentView, setCurrentView] = useState<View>('chat');
+  const [gestorLogin, setGestorLogin] = useState('');
+  const [gestorSenha, setGestorSenha] = useState('');
+  const [copiedGestor, setCopiedGestor] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
     if (typeof window !== 'undefined') {
       return (localStorage.getItem('theme') as 'dark' | 'light') || 'dark';
@@ -55,6 +59,43 @@ export default function App() {
     setInput('');
     setIsLoading(false);
     setCurrentView('chat');
+  };
+
+  const buildGestorV3Message = (login: string, senha: string) => {
+    return `🔰 PASSO 1 — BAIXE O APLICATIVO
+
+📱 Android: https://play.google.com/store/apps/details?id=com.gestorv3.cliente  
+
+🍎 iOS: https://apps.apple.com/app/gestorv3-cliente/id6793566886 
+
+🔰 PASSO 2 — PRIMEIRO ACESSO
+
+Ao abrir o app pela primeira vez, o app vai pedir estes dados:
+
+🖥️ Servidor: 9
+🔑 Código: WKM6AT
+
+🔰 PASSO 3 — FAÇA SEU LOGIN
+
+Você pode entrar de duas formas:
+
+1️⃣ Pelo seu número de WhatsApp
+2️⃣ Ou com o login e senha abaixo:
+
+🕵️‍♂️ Login: ${login.trim() || '[INSERIR_LOGIN]'}
+🔐 Senha: ${senha.trim() || '[INSERIR_SENHA]'}`;
+  };
+
+  const handleCopyGestor = () => {
+    const msg = buildGestorV3Message(gestorLogin, gestorSenha);
+    navigator.clipboard.writeText(msg);
+    setCopiedGestor(true);
+    setTimeout(() => setCopiedGestor(false), 2000);
+  };
+
+  const handleSendGestorToChat = () => {
+    const msg = buildGestorV3Message(gestorLogin, gestorSenha);
+    handleSend(`Mensagem do Gestor V3 gerada:\n\n${msg}`);
   };
 
   const handleSend = async (textOverride?: string) => {
@@ -398,6 +439,118 @@ export default function App() {
             </div>
           </div>
         );
+      case 'gestor_v3':
+        const gestorMessageText = buildGestorV3Message(gestorLogin, gestorSenha);
+        return (
+          <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 md:space-y-8 pb-24 md:pb-8">
+            <div>
+              <div className="flex items-center gap-2 mb-1">
+                <span className="px-2.5 py-0.5 bg-primary/10 text-primary text-xs font-bold rounded-full flex items-center gap-1">
+                  <Sparkles className="w-3 h-3" /> Gerador Rápido
+                </span>
+              </div>
+              <h2 className="text-2xl md:text-3xl font-display text-primary tracking-wider mb-2">Gerador Gestor V3</h2>
+              <p className="text-xs md:text-sm text-text-muted">Preencha o login e a senha do cliente para gerar automaticamente a mensagem formatada de acesso ao aplicativo.</p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+              {/* Form Input */}
+              <div className="lg:col-span-5 bg-surface p-5 md:p-6 rounded-2xl border border-border space-y-5 shadow-lg">
+                <h3 className="font-bold text-base md:text-lg text-text-main flex items-center gap-2 border-b border-border/20 pb-3">
+                  <Key className="w-5 h-5 text-primary" />
+                  Dados do Cliente
+                </h3>
+
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-xs font-bold text-text-muted uppercase tracking-wider mb-1.5">
+                      Usuário / Login do Cliente
+                    </label>
+                    <input
+                      type="text"
+                      value={gestorLogin}
+                      onChange={(e) => setGestorLogin(e.target.value)}
+                      placeholder="Ex: cliente123"
+                      className="w-full bg-background border border-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-text-muted uppercase tracking-wider mb-1.5">
+                      Senha do Cliente
+                    </label>
+                    <input
+                      type="text"
+                      value={gestorSenha}
+                      onChange={(e) => setGestorSenha(e.target.value)}
+                      placeholder="Ex: 88421"
+                      className="w-full bg-background border border-border rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                    />
+                  </div>
+                </div>
+
+                <div className="pt-2 flex items-center gap-2">
+                  <button
+                    onClick={() => { setGestorLogin(''); setGestorSenha(''); }}
+                    className="px-3 py-2 text-xs font-bold text-text-muted hover:text-red-500 hover:bg-red-500/10 rounded-lg transition-all flex items-center gap-1.5"
+                    title="Limpar campos"
+                  >
+                    <RefreshCw className="w-3.5 h-3.5" />
+                    Limpar Campos
+                  </button>
+                </div>
+              </div>
+
+              {/* Message Preview */}
+              <div className="lg:col-span-7 bg-surface p-5 md:p-6 rounded-2xl border border-border space-y-5 shadow-lg flex flex-col">
+                <div className="flex items-center justify-between border-b border-border/20 pb-3">
+                  <h3 className="font-bold text-base md:text-lg text-text-main flex items-center gap-2">
+                    <Smartphone className="w-5 h-5 text-primary" />
+                    Mensagem Pronta
+                  </h3>
+                  <span className="text-[11px] font-bold text-emerald-500 bg-emerald-500/10 px-2.5 py-1 rounded-full">
+                    Formato Oficial
+                  </span>
+                </div>
+
+                <div className="bg-background/80 border border-border rounded-xl p-4 font-mono text-xs md:text-sm leading-relaxed text-text-main whitespace-pre-wrap select-all max-h-[380px] overflow-y-auto shadow-inner">
+                  {gestorMessageText}
+                </div>
+
+                <div className="flex flex-col sm:flex-row items-center gap-3 pt-2">
+                  <button
+                    onClick={handleCopyGestor}
+                    className={`flex-1 w-full py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 shadow-lg active:scale-95 ${
+                      copiedGestor
+                        ? 'bg-emerald-500 text-white'
+                        : 'bg-primary hover:bg-red-700 text-white shadow-primary/20'
+                    }`}
+                  >
+                    {copiedGestor ? (
+                      <>
+                        <Check className="w-5 h-5" />
+                        Copiado com Sucesso!
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-5 h-5" />
+                        Copiar Mensagem do Gestor V3
+                      </>
+                    )}
+                  </button>
+
+                  <button
+                    onClick={handleSendGestorToChat}
+                    className="w-full sm:w-auto py-3 px-4 bg-surface-light border border-border hover:border-primary/50 text-text-main rounded-xl font-bold text-xs md:text-sm transition-all flex items-center justify-center gap-2 active:scale-95"
+                  >
+                    <Send className="w-4 h-4 text-primary" />
+                    Enviar para Chat
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
       case 'support':
         return (
           <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-6 md:space-y-8 pb-24 md:pb-8">
@@ -640,20 +793,30 @@ export default function App() {
           <p className="px-4 mb-2 text-[10px] font-bold text-text-muted uppercase tracking-widest opacity-50">Menu Principal</p>
           {[
             { id: 'chat', label: 'Atendimento', icon: MessageCircle },
+            { id: 'gestor_v3', label: 'Gerador Gestor V3', icon: Smartphone, badge: 'Novo' },
             { id: 'plans', label: 'Planos & Preços', icon: Info },
             { id: 'support', label: 'Suporte Técnico', icon: HelpCircle },
           ].map((item) => (
             <button
               key={item.id}
               onClick={() => setCurrentView(item.id as View)}
-              className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-semibold rounded-xl transition-all duration-200 group ${
+              className={`w-full flex items-center justify-between px-4 py-3 text-sm font-semibold rounded-xl transition-all duration-200 group ${
                 currentView === item.id 
                   ? 'bg-primary text-white shadow-xl shadow-primary/20 scale-[1.02]' 
                   : 'text-text-muted hover:bg-surface-light hover:text-text-main'
               }`}
             >
-              <item.icon className={`w-5 h-5 transition-transform duration-300 ${currentView === item.id ? 'scale-110' : 'group-hover:scale-110'}`} />
-              {item.label}
+              <div className="flex items-center gap-3">
+                <item.icon className={`w-5 h-5 transition-transform duration-300 ${currentView === item.id ? 'scale-110' : 'group-hover:scale-110'}`} />
+                <span>{item.label}</span>
+              </div>
+              {item.badge && (
+                <span className={`text-[9px] font-black tracking-widest uppercase px-2 py-0.5 rounded-full ${
+                  currentView === item.id ? 'bg-white/20 text-white' : 'bg-primary/20 text-primary'
+                }`}>
+                  {item.badge}
+                </span>
+              )}
             </button>
           ))}
         </nav>
@@ -709,12 +872,21 @@ export default function App() {
       <main className="flex-1 flex flex-col relative w-full overflow-hidden">
         {/* Mobile Header */}
         <header className="md:hidden bg-surface border-b border-border p-4 flex items-center justify-between sticky top-0 z-20 shadow-sm">
-          <button onClick={handleGoHome} className="hover:opacity-80 transition-opacity flex items-center gap-2">
-            <div className="w-6 h-6 bg-primary rounded flex items-center justify-center shadow shadow-primary/30">
-              <Tv className="w-4 h-4 text-white" />
-            </div>
-            <h1 className="text-xl font-display text-primary tracking-tighter">ONEFLIX</h1>
-          </button>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="p-2 rounded-lg bg-surface-light text-text-muted hover:text-text-main active:scale-95"
+              title="Abrir Menu Lateral"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+            <button onClick={handleGoHome} className="hover:opacity-80 transition-opacity flex items-center gap-2">
+              <div className="w-6 h-6 bg-primary rounded flex items-center justify-center shadow shadow-primary/30">
+                <Tv className="w-4 h-4 text-white" />
+              </div>
+              <h1 className="text-xl font-display text-primary tracking-tighter">ONEFLIX</h1>
+            </button>
+          </div>
           <div className="flex gap-2">
             {/* Smooth Theme Toggle inside Mobile Header */}
             <button 
@@ -731,6 +903,99 @@ export default function App() {
             )}
           </div>
         </header>
+
+        {/* Mobile Slide-over Drawer */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="md:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+              />
+              
+              <motion.aside
+                initial={{ x: '-100%' }}
+                animate={{ x: 0 }}
+                exit={{ x: '-100%' }}
+                transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                className="md:hidden fixed top-0 left-0 bottom-0 w-80 bg-surface border-r border-border z-50 flex flex-col shadow-2xl"
+              >
+                <div className="p-6 border-b border-border flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center shadow-lg shadow-primary/30">
+                      <Tv className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <h1 className="text-xl font-display text-primary tracking-tight leading-none">ONEFLIX</h1>
+                      <p className="text-[8px] text-text-muted font-black tracking-[0.2em] uppercase">Assistente Pro</p>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="p-2 rounded-lg bg-surface-light text-text-muted hover:text-text-main active:scale-95"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+                  <p className="px-4 mb-2 text-[10px] font-bold text-text-muted uppercase tracking-widest opacity-50">Menu Lateral</p>
+                  {[
+                    { id: 'chat', label: 'Atendimento', icon: MessageCircle },
+                    { id: 'gestor_v3', label: 'Gerador Gestor V3', icon: Smartphone, badge: 'Novo' },
+                    { id: 'plans', label: 'Planos & Preços', icon: Info },
+                    { id: 'support', label: 'Suporte Técnico', icon: HelpCircle },
+                  ].map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => {
+                        setCurrentView(item.id as View);
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className={`w-full flex items-center justify-between px-4 py-3 text-sm font-semibold rounded-xl transition-all ${
+                        currentView === item.id 
+                          ? 'bg-primary text-white shadow-lg shadow-primary/20' 
+                          : 'text-text-muted hover:bg-surface-light hover:text-text-main'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <item.icon className="w-5 h-5" />
+                        <span>{item.label}</span>
+                      </div>
+                      {item.badge && (
+                        <span className={`text-[9px] font-black tracking-widest uppercase px-2 py-0.5 rounded-full ${
+                          currentView === item.id ? 'bg-white/20 text-white' : 'bg-primary/20 text-primary'
+                        }`}>
+                          {item.badge}
+                        </span>
+                      )}
+                    </button>
+                  ))}
+                </nav>
+
+                <div className="p-4 border-t border-border space-y-2">
+                  <button
+                    onClick={() => {
+                      setCurrentView('settings');
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-bold rounded-xl transition-all ${
+                      currentView === 'settings' 
+                        ? 'bg-primary text-white' 
+                        : 'text-text-muted hover:bg-surface-light hover:text-text-main'
+                    }`}
+                  >
+                    <Settings className="w-5 h-5" />
+                    Configurações
+                  </button>
+                </div>
+              </motion.aside>
+            </>
+          )}
+        </AnimatePresence>
 
         {/* Desktop Header (Chat Only) */}
         {currentView === 'chat' && (
@@ -785,6 +1050,7 @@ export default function App() {
         <nav className="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-surface/90 backdrop-blur-lg border-t border-border flex items-center justify-around px-2 z-30 shadow-lg">
           {[
             { id: 'chat', label: 'Conversa', icon: MessageCircle },
+            { id: 'gestor_v3', label: 'Gestor V3', icon: Smartphone },
             { id: 'plans', label: 'Planos', icon: Info },
             { id: 'support', label: 'Suporte', icon: HelpCircle },
             { id: 'settings', label: 'Ajustes', icon: Settings },
