@@ -62,7 +62,11 @@ export default function App() {
   };
 
   const buildGestorV3Message = (login: string, senha: string) => {
-    return `🔰 PASSO 1 — BAIXE O APLICATIVO
+    return `Olá! Vou te enviar o nosso aplicativo exclusivo para clientes mensais. Por ele, você poderá acessar suas informações e realizar o pagamento das próximas faturas de forma rápida e prática.
+
+Qualquer dúvida que tiver, é só me chamar. Estou à disposição!
+
+🔰 PASSO 1 — BAIXE O APLICATIVO
 
 📱 Android: https://play.google.com/store/apps/details?id=com.gestorv3.cliente  
 
